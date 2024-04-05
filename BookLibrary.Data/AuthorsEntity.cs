@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace BookLibrary.Data;
 
 public class AuthorsEntity

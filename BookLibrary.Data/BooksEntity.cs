@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using BookLibrary.Domain;
 
 namespace BookLibrary.Data;
@@ -12,7 +11,7 @@ public class BooksEntity
 {
     public required Guid Id { get; set; }
     public required string Title { get; set; }
-    public required AuthorsEntity[] Authors { get; set; }
+    public required ICollection<AuthorsEntity> Authors { get; set; }
     public required string Publisher { get; set; }
     public required BookType Type { get; set; }
     public required string Category { get; set; }
