@@ -14,6 +14,7 @@ public readonly record struct BookDto
     public required string? Isbn { get; init; }
     public required int? TotalCopies { get; init; }
     public required int? CopiesInUse { get; init; }
+    public required int? AvailableCopies { get; init; }
 }
 
 public readonly record struct AuthorDto

@@ -15,7 +15,8 @@ public static class BookDtoMapper
             Category = book.Category,
             Isbn = book.Isbn,
             TotalCopies = book.TotalCopies,
-            CopiesInUse = book.CopiesInUse
+            CopiesInUse = book.CopiesInUse,
+            AvailableCopies = book.AvailableCopies
         };
 
     public static AuthorDto ToAuthorDto(this Author a) =>
@@ -32,7 +33,7 @@ public static class BookDtoMapper
             .Apply(dto.TotalCopies ?? 0)
             .Apply(dto.CopiesInUse ?? 0);
 
-    private static ErrorOr<Author> ToAuthor(this AuthorDto dto) 
+    private static ErrorOr<Author> ToAuthor(this AuthorDto dto)
         => Id(NewAuthor).Curry()
             .Then(CreateReqStr(dto.FirstName, nameof(AuthorDto.FirstName)))
             .Apply(CreateReqStr(dto.LastName, nameof(AuthorDto.LastName)));

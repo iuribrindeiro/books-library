@@ -1,4 +1,3 @@
-using BookLibrary.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookLibrary.Data;
@@ -14,9 +13,8 @@ public class ApplicationContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<BooksEntity>()
-
             //Using owned entity types makes it easier to map complex types to the database.
-            //Again, databases should just store the data, no need to validate foreign keys and such.
+            //Again, databases should just store the data, no need to validate foreign keys, field length, and etc.
             //If we need some performance improvements, we can think of indexes and such.
             .OwnsMany(e => e.Authors, e => e.ToJson());
     }
