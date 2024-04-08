@@ -18,6 +18,11 @@ public static class BookDtoMapper
             CopiesInUse = book.CopiesInUse,
             AvailableCopies = book.AvailableCopies
         };
+    
+    public static BookDto[] ToBookDtos(this Book[] books) =>
+        books
+            .Select(ToBookDto)
+            .ToArray();
 
     public static AuthorDto ToAuthorDto(this Author a) =>
         new() { FirstName = a.FirstName, LastName = a.LastName };

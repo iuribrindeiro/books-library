@@ -42,6 +42,18 @@ public static class ErrorOrExtesions
     public static ErrorOr<T[]> Transpose<T>(this IEnumerable<ErrorOr<T>> results) 
         => results.TraverseApply(e => e).ToArray();
     
+    //Tee means, do something with the value if it is in a success state
+    //Doesn't matter the result of the action, failing or not, the original value will be returned
+    public static Task<ErrorOr<T>> Tee<T>(
+        this Task<ErrorOr<T>> result, 
+        Func<T, Task> action)
+        => result
+            .ThenAsync(async e =>
+            {
+                await action(e); 
+                return e;
+            });
+    
     public static ErrorOr<T[]> ToArray<T>(this ErrorOr<IEnumerable<T>> items) => items.Then(e => e.ToArray());
     
     public static ErrorOr<T> ToResult<T>(this T val) => val;

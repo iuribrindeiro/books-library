@@ -19,6 +19,9 @@ public readonly record struct Book
     public required int CopiesInUse { get; init; }
 
     public int AvailableCopies => TotalCopies - CopiesInUse;
+    
+    public static Book WithCopiesInUse(Book book, int copiesInUse) 
+        => book with { CopiesInUse = copiesInUse };
 
     public static Book NewBook(
         Guid id,

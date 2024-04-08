@@ -1,8 +1,9 @@
 import { ActionCreatorWithPayload, combineSlices, configureStore } from "@reduxjs/toolkit";
 import { Epic, combineEpics, createEpicMiddleware } from "redux-observable";
-import { filter, from, Observable } from "rxjs";
-import { Book, bookSlice, fetchBooksEpic } from "./slices/books-slice";
+import { filter } from "rxjs";
+import { bookSlice, booksEpics } from "./slices/books-slice";
 import { useDispatch, useSelector } from "react-redux";
+import { BooksApi, booksClient } from './books-client';
 
 //A little bit of TS magic to get the action types from a slice
 type SliceActions<T> = {
@@ -12,8 +13,6 @@ type SliceActions<T> = {
 type ActionTypes = SliceActions<typeof bookSlice.actions>
 
 export type AppDispatch = typeof store.dispatch;
-
-type BooksApi = { fetchBooks: () => Observable<Book[]> }
 
 type Dependencies = {
     books: BooksApi
@@ -32,17 +31,11 @@ export type AppEpic = Epic<ActionTypes, ActionTypes, RootState, Dependencies>;
 
 const epicMiddleware = createEpicMiddleware<ActionTypes, ActionTypes, RootState, Dependencies>({
     dependencies: {
-        books: {
-            fetchBooks: () =>
-                from(
-                    fetch('http://localhost:5013/books')
-                        .then((e) => e.json() as unknown as Book[])
-                )
-        }
+        books: booksClient
     }
 });
 
-const rootEpic = combineEpics(fetchBooksEpic);
+const rootEpic = combineEpics(...booksEpics);
 
 export const store = configureStore({
     reducer,
